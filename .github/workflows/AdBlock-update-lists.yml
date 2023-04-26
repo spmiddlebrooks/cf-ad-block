@@ -54,8 +54,10 @@ jobs:
       - name: ↗️ Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          # token: ${{ secrets.GITHUB_TOKEN }}
           title: 'Update Ad Block list'
+          branch-suffix: timestamp
+          commit-message: 'Update Ad Block List'
+          body: ''
           branch-suffix: timestamp
           commit-message: 'Update Ad Block list'
           body: ''
