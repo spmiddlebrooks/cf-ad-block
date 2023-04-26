@@ -25,7 +25,7 @@ jobs:
       # Fetch domain list
       #
       - name: 🔗 Fetch Domain List
-        working-directory: ${ { env.FOLDER } }
+        working-directory: ${{ env.FOLDER }}
         run: |
           LIST_URL="https://adaway.org/hosts.txt"
           LIST_FNAME="adaway_list.txt"
