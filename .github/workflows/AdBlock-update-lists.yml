@@ -7,7 +7,7 @@ on:
 
 defaults:
  run:
-  working-directory: ./assets
+  working-directory: /assets
   
 #env:
 #  FOLDER: ./assets
