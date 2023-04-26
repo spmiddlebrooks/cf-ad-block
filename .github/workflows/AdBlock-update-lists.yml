@@ -5,16 +5,12 @@ on:
   schedule:
     - cron: '0 10 15 * *' # At 10:00 on day-of-month 15
 
-#defaults:
-# run:
-#  working-directory: ./assets
-  
 env:
-  FOLDER: ./assets
+  FOLDER: 'cf-ad-block/assets'
 
 jobs:
   auto-update:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     permissions:
       id-token: write
