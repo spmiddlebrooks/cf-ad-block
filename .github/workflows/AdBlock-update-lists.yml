@@ -5,12 +5,12 @@ on:
   schedule:
     - cron: '0 10 15 * *' # At 10:00 on day-of-month 15
 
-defaults:
- run:
-  working-directory: /assets
+#defaults:
+# run:
+#  working-directory: ./assets
   
-#env:
-#  FOLDER: ./assets
+env:
+  FOLDER: ./assets
 
 jobs:
   auto-update:
@@ -23,13 +23,13 @@ jobs:
 
     steps:
       - name: 📂 Checkout Branch
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3
 
       #
       # Fetch domain list
       #
       - name: 🔗 Fetch Domain List
- #       working-directory: ${{ env.FOLDER }}
+       working-directory: ${{ env.FOLDER }}
         run: |
           LIST_URL="https://adaway.org/hosts.txt"
           LIST_FNAME="adaway_list.txt"
