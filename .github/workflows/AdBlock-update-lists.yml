@@ -5,8 +5,12 @@ on:
   schedule:
     - cron: '0 10 15 * *' # At 10:00 on day-of-month 15
 
-env:
-  FOLDER: assets
+defaults:
+ run:
+  working-directory: ./assets
+  
+#env:
+#  FOLDER: ./assets
 
 jobs:
   auto-update:
@@ -25,7 +29,7 @@ jobs:
       # Fetch domain list
       #
       - name: 🔗 Fetch Domain List
-        working-directory: ${{ env.FOLDER }}
+ #       working-directory: ${{ env.FOLDER }}
         run: |
           LIST_URL="https://adaway.org/hosts.txt"
           LIST_FNAME="adaway_list.txt"
