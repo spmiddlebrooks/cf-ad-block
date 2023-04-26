@@ -3,7 +3,7 @@ name: 'Update Ad Block List'
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/5 * * * *' # At 10:00 on day-of-month 15
+    - cron: '5 0 * * *' # At 00:05 everyday
 
 env:
   FOLDER: ${{ github.workspace }}/assets
