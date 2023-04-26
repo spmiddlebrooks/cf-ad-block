@@ -48,11 +48,7 @@ jobs:
           sed -i '/localhost/d' $LIST_FNAME
           sed -i '/127.0.0.1/d' $LIST_FNAME
 
-      #
-      # Commit file
-      #
-      - name: ↗️ Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+
           branch-suffix: timestamp
           commit-message: 'Update Ad Block list'
           body: ''
