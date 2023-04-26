@@ -10,3 +10,7 @@ terraform {
   }
   required_version = ">= 1.1.0"
 }
+
+variable "cloudflare_account_id" {
+ type        = string
+}
