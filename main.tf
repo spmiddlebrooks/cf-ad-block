@@ -15,6 +15,6 @@ variable "cloudflare_api_token" {
  type        = string
 }
 
-proivder "cloudflare" {
+provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
