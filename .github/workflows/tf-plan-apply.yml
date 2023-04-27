@@ -87,11 +87,11 @@ jobs:
         echo "${delimiter}" >> $GITHUB_OUTPUT
         
     # Publish Terraform Plan as task summary
-    - name: Publish Terraform Plan to Task Summary
-      env:
-        SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
-      run: |
-        echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+    #- name: Publish Terraform Plan to Task Summary
+    #  env:
+    #    SUMMARY: ${{ steps.tf-plan-string.outputs.summary }}
+    #  run: |
+    #    echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
       
     # If this is a PR post the changes
     - name: Push Terraform Output to PR
