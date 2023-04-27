@@ -13,4 +13,5 @@ terraform {
 
 variable "cloudflare_account_id" {
  type        = string
+ default     = {{ $secrets.CLOUDFLARE_ACCOUNT_ID }}
 }
