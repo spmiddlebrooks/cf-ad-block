@@ -12,10 +12,10 @@ jobs:
   auto-update:
     runs-on: ubuntu-latest
 
-    permissions:
-      id-token: write
-      contents: write
-      pull-requests: write
+    #permissions:
+    #  id-token: write
+    #  contents: write
+    #  pull-requests: write
 
     steps:
       - name: Checkout Branch
