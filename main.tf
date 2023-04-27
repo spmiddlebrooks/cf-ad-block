@@ -14,3 +14,7 @@ terraform {
 variable "cloudflare_api_token" {
  type        = string
 }
+
+proivder "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
