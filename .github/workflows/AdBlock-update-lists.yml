@@ -30,6 +30,7 @@ jobs:
           LIST_URL="https://adaway.org/hosts.txt"
           LIST_FNAME="adaway_list.txt"
 
+          echo "[**] Secret Cloudflare Account ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
           echo "[*] Fetching list: ${LIST_URL} -> ${LIST_FNAME}"
           wget --quiet $LIST_URL -O $LIST_FNAME
 
