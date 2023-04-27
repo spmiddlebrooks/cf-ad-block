@@ -2,15 +2,15 @@
 # POLICY: Block Ads
 # ==============================================================================
 locals {
-  # Iterate through each pihole_domain_list resource and extract its ID
-  pihole_domain_lists = [for k, v in cloudflare_teams_list.pihole_domain_lists : v.id]
+  # Iterate through each domain_list resource and extract its ID
+  domain_lists = [for k, v in cloudflare_teams_list.domain_lists : v.id]
 
   # Format the values: remove dashes and prepend $
-  pihole_domain_lists_formatted = [for v in local.pihole_domain_lists : format("$%s", replace(v, "-", ""))]
+  domain_lists_formatted = [for v in local.domain_lists : format("$%s", replace(v, "-", ""))]
 
   # Create filters to use in the policy
-  pihole_ad_filters = formatlist("any(dns.domains[*] in %s)", local.pihole_domain_lists_formatted)
-  pihole_ad_filter  = join(" or ", local.pihole_ad_filters)
+  ad_filters = formatlist("any(dns.domains[*] in %s)", local.domain_lists_formatted)
+  ad_filter  = join(" or ", local.ad_filters)
 }
 
 resource "cloudflare_teams_rule" "block_ads" {
@@ -25,7 +25,7 @@ resource "cloudflare_teams_rule" "block_ads" {
   # Block domain belonging to lists (defined below)
   filters = ["dns"]
   action  = "block"
-  traffic = local.pihole_ad_filter
+  traffic = local.ad_filter
 
   rule_settings {
     block_page_enabled = false
@@ -40,37 +40,37 @@ resource "cloudflare_teams_rule" "block_ads" {
 #   - https://firebog.net/
 #   - https://adaway.org/hosts.txt
 # Local file:
-#   - ./cloudflare/lists/pihole_domain_list.txt
+#   - ./assets/adaway_list.txt
 #   - the file can be updated periodically via Github Actions (see README)
 # ==============================================================================
 locals {
   # The full path of the list holding the domain list
-  pihole_domain_list_file = "${path.module}/cloudflare/lists/pihole_domain_list.txt"
+  domain_list_file = "${path.module}/assets/adaway_list.txt"
 
   # Parse the file and create a list, one item per line
-  pihole_domain_list = split("\n", file(local.pihole_domain_list_file))
+  domain_list = split("\n", file(local.domain_list_file))
 
   # Remove empty lines
-  pihole_domain_list_clean = [for x in local.pihole_domain_list : x if x != ""]
+  domain_list_clean = [for x in local.domain_list : x if x != ""]
 
   # Use chunklist to split a list into fixed-size chunks
   # It returns a list of lists
-  pihole_aggregated_lists = chunklist(local.pihole_domain_list_clean, 1000)
+  aggregated_lists = chunklist(local.domain_list_clean, 1000)
 
   # Get the number of lists (chunks) created
-  pihole_list_count = length(local.pihole_aggregated_lists)
+  list_count = length(local.aggregated_lists)
 }
 
 
-resource "cloudflare_teams_list" "pihole_domain_lists" {
+resource "cloudflare_teams_list" "domain_lists" {
   account_id = var.cloudflare_account_id
 
   for_each = {
-    for i in range(0, local.pihole_list_count) :
-    i => element(local.pihole_aggregated_lists, i)
+    for i in range(0, local.list_count) :
+    i => element(local.aggregated_lists, i)
   }
 
-  name  = "pihole_domain_list_${each.key}"
+  name  = "domain_list_${each.key}"
   type  = "DOMAIN"
   items = each.value
 }
