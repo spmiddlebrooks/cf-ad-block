@@ -11,11 +11,6 @@ terraform {
   required_version = ">= 1.1.0"
 }
 
-proivder "cloudflare" {
-  api_token = ${{ secrets.CLOUDFLARE_API_TOKEN }}
-}
-
 variable "cloudflare_api_token" {
  type        = string
- default     = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
 }
