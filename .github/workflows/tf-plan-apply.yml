@@ -135,6 +135,10 @@ jobs:
       with:
         name: tfplan
 
+    # Terraform Destroy
+    - name: Terraform Destroy
+      run: terraform destroy --target cloudflare_teams_list.domain_lists --target cloudflare_teams_rule.block_ads
+
     # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -destroy -auto-approve tfplan
+      run: terraform apply -auto-approve tfplan
