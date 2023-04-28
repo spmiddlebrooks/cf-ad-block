@@ -50,7 +50,7 @@ jobs:
       id: tf-plan
       run: |
         export exitcode=0
-        terraform plan -detailed-exitcode -no-color -out tfplan -replace cloudflare_teams_list.domain_lists -replace cloudflare_teams_rule.block_ads || export exitcode=$?
+        terraform plan -detailed-exitcode -no-color -out tfplan -replace="cloudflare_teams_list.domain_lists" -replace="cloudflare_teams_rule.block_ads" || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         
@@ -137,4 +137,4 @@ jobs:
 
     # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan -replace cloudflare_teams_list.domain_lists -replace cloudflare_teams_rule.block_ads
+      run: terraform apply -auto-approve tfplan
