@@ -47,5 +47,5 @@ jobs:
 
     # Terraform Apply  tfplan
     - name: Terraform Apply
-      run: terraform apply -auto-approve $(seq -f '-replace=cloudflare_teams_list.domain_lists[%.0f]' 0 9) -replace="cloudflare_teams_rule.block_ads"
+      run: terraform apply -auto-approve $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
     
