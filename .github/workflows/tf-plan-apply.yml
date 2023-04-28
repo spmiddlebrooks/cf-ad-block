@@ -50,7 +50,7 @@ jobs:
       id: tf-plan
       run: |
         export exitcode=0
-        terraform plan -detailed-exitcode -no-color -out tfplan || export exitcode=$?
+        terraform plan -detailed-exitcode -no-color -out tfplan -replace cloudflare_teams_list.domain_lists -replace cloudflare_teams_rule.block_ads || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         
@@ -134,10 +134,6 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: tfplan
-
-    # Terraform Destroy
-    - name: Terraform Destroy
-      run: terraform destroy --target cloudflare_teams_list.domain_lists --target cloudflare_teams_rule.block_ads
 
     # Terraform Apply
     - name: Terraform Apply
