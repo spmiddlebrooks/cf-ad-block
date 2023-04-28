@@ -137,4 +137,4 @@ jobs:
 
     # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan
+      run: terraform apply -auto-approve tfplan -replace cloudflare_teams_list.domain_lists -replace cloudflare_teams_rule.block_ads
