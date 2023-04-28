@@ -19,6 +19,10 @@ variable "account_id" {
   default = "7e9918092d616256ce61ad41e0319dba"
 }
 
+variable "cloudflare_api_token" {
+ type        = string
+}
+
 provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
