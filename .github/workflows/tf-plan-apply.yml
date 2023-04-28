@@ -8,9 +8,7 @@ on:
     branches:
     - main
 
-#Special permissions required for OIDC authentication
 #permissions:
-#  id-token: write
 #  contents: read
 #  pull-requests: write
 
@@ -139,4 +137,4 @@ jobs:
 
     # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan
+      run: terraform apply -destroy -auto-approve tfplan
