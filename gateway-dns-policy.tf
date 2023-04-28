@@ -15,7 +15,6 @@ locals {
 
 resource "cloudflare_teams_rule" "block_ads" {
   account_id = var.cloudflare_api_token
-  zone_id = "14c60605fcfc8d89331d1c039fb92e5d"
 
   name        = "Block Ads"
   description = "Block Ads domains"
@@ -65,7 +64,6 @@ locals {
 
 resource "cloudflare_teams_list" "domain_lists" {
   account_id = var.cloudflare_api_token
-  zone_id = "14c60605fcfc8d89331d1c039fb92e5d"
 
   for_each = {
     for i in range(0, local.list_count) :
