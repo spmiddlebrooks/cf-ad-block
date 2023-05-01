@@ -8,46 +8,84 @@ on:
     branches:
     - main
 
-#permissions:
-#  contents: read
-#  pull-requests: write
-
 env:
   TF_VAR_cloudflare_api_token: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
   TF_VAR_account_id: "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
 
-
 jobs:
-  terraform-apply:
-    name: 'Terraform Apply'
-    if: github.ref == 'refs/heads/main' 
-    # && needs.terraform-plan.outputs.tfplanExitCode == 2
+  terraform:
+    name: 'Terraform Plan'
     runs-on: ubuntu-latest
-    environment: production
-    #needs: [terraform-plan]
-    
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    # Install the latest version of the Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
       with:
+        #terraform_wrapper: false
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
+    # Checks that all Terraform configuration files adhere to a canonical format
+    # Will fail the build if not
+    - name: Terraform Format
+      id: fmt
+      run: terraform fmt -check
+      
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
+      id: init
       run: terraform init
 
-    # Download saved plan from artifacts  
-    #- name: Download Terraform Plan
-    #  uses: actions/download-artifact@v3
-    #  with:
-    #    name: tfplan
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
 
-    # Terraform Apply  tfplan
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color -input=false
+      continue-on-error: true
+        
+    # Create output of Terraform Plan
+    - name: Create Output
+      #if: github.ref != 'refs/heads/main'
+      uses: actions/github-script@v6
+      env:
+        PLAN: "${{ steps.plan.outputs.stdout }}"
+      with:
+        #github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`terraform\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+    - name: Terraform Plan Status
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+
+    # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
+      run: terraform apply -auto-approve -input=false $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
     
