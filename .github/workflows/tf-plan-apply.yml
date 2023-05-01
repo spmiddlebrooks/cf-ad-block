@@ -14,7 +14,7 @@ env:
 
 jobs:
   terraform:
-    name: 'Terraform Plan'
+    name: 'Terraform'
     runs-on: ubuntu-latest
 
     steps:
@@ -47,15 +47,15 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -input=false
+      run: terraform plan -no-color -input=false $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
       continue-on-error: true
         
     # Create output of Terraform Plan
     - name: Create Output
       #if: github.ref != 'refs/heads/main'
       uses: actions/github-script@v6
-      env:
-        PLAN: "${{ steps.plan.outputs.stdout }}"
+      #env:
+        #PLAN: "${{ steps.plan.outputs.stdout }}"
       with:
         #github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -64,13 +64,13 @@ jobs:
           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
           #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
 
-          <details><summary>Show Plan</summary>
-
-          \`\`\`terraform\n
-          ${process.env.PLAN}
-          \`\`\`
-
-          </details>
+          #<details><summary>Show Plan</summary>
+          #
+          #\`\`\`terraform\n
+          #${process.env.PLAN}
+          #\`\`\`
+          #
+          #</details>
 
           *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
