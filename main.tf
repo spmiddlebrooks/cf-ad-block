@@ -4,11 +4,18 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "~> 4.0"
     }
-    local = {
-      source = "hashicorp/local"
+    random = {
+      source = "hashicorp/random"
     }
   }
   required_version = ">= 1.1.0"
+}
+
+cloud {
+  organization = "smidd"
+  workspaces {
+    name = "learn-terraform-github-actions"
+  }
 }
 
 variable "account_id" {
