@@ -1,4 +1,4 @@
-name: 'Terraform Plan/Apply'
+name: 'Terraform'
 
 on:
   push:
@@ -56,5 +56,6 @@ jobs:
 
     # Terraform Apply
     - name: Terraform Apply
+      id: apply
       run: terraform apply -auto-approve -input=false $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
     
