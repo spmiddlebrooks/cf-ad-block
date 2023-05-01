@@ -51,6 +51,11 @@ jobs:
       id: validate
       run: terraform validate -no-color
 
+    # Refresh Terraform state and auto-approve
+    - name: Terraform Plan
+      id: refresh
+      run: terraform apply -refresh-only -auto-approve
+      
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
