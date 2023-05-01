@@ -54,7 +54,7 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
-      run: terraform plan -no-color -input=false
+      run: terraform plan -destroy -no-color -input=false
       # $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
       continue-on-error: true
         
@@ -65,6 +65,6 @@ jobs:
     # Terraform Apply
     - name: Terraform Apply
       id: apply
-      run: terraform apply -auto-approve -input=false
+      run: terraform apply -destroy -auto-approve -input=false
       # $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
     
