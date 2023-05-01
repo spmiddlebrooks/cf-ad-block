@@ -51,16 +51,10 @@ jobs:
       id: validate
       run: terraform validate -no-color
 
-    # Refresh Terraform state and auto-approve
-    - name: Terraform Plan
-      id: refresh
-      run: terraform apply -refresh-only -auto-approve
-      
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       id: plan
-      run: terraform plan -destroy -no-color -input=false
-      # $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
+      run: terraform plan -no-color -input=false $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
       continue-on-error: true
         
     - name: Terraform Plan Status
@@ -70,6 +64,5 @@ jobs:
     # Terraform Apply
     - name: Terraform Apply
       id: apply
-      run: terraform apply -destroy -auto-approve -input=false
-      # $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
+      run: terraform apply -destroy -auto-approve -input=false $(seq -f '-replace=cloudflare_teams_list.domain_lists["%.0f"]' 0 9) -replace="cloudflare_teams_rule.block_ads"
     
