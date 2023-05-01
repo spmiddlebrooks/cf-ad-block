@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "smidd"
     workspaces {
-      name = "learn-terraform-github-actions"
+      name = "cf-ad-block"
     }
   }
 }
