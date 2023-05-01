@@ -9,12 +9,11 @@ terraform {
     }
   }
   required_version = ">= 1.1.0"
-}
-
-cloud {
-  organization = "smidd"
-  workspaces {
-    name = "learn-terraform-github-actions"
+  cloud {
+    organization = "smidd"
+    workspaces {
+      name = "learn-terraform-github-actions"
+    }
   }
 }
 
