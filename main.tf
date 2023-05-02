@@ -12,7 +12,7 @@ terraform {
   cloud {
     organization = "smidd"
     workspaces {
-      name = "cf-ad-block"
+      name = "cf-adblock"
     }
   }
 }
