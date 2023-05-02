@@ -10,10 +10,10 @@ on:
   #push:
   #  branches:
   #  - main
-  pull_request:
-    branches:
-      - main
-    types: [closed]
+  #pull_request:
+  #  branches:
+  #    - main
+  #  types: [closed]
 
 #env:
 #  TF_VAR_cloudflare_api_token: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
