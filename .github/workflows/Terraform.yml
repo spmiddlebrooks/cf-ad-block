@@ -15,9 +15,9 @@ on:
       - main
     types: [closed]
 
-env:
-  TF_VAR_cloudflare_api_token: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
-  TF_VAR_account_id: "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
+#env:
+#  TF_VAR_cloudflare_api_token: "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+#  TF_VAR_account_id: "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
 
 jobs:
   terraform:
