@@ -70,7 +70,8 @@ resource "cloudflare_teams_list" "domain_lists" {
     i => element(local.aggregated_lists, i)
   }
 
-  name  = "domain_list_${each.key}"
-  type  = "DOMAIN"
-  items = each.value
+  name       = "domain_list_${each.key}"
+  type       = "DOMAIN"
+  items      = each.value
+  depends_on = [cloudflare_teams_rule.block_ads]
 }
