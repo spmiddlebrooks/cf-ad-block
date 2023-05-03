@@ -73,5 +73,4 @@ resource "cloudflare_teams_list" "domain_lists" {
   name       = "domain_list_${each.key}"
   type       = "DOMAIN"
   items      = each.value
-  depends_on = [cloudflare_teams_rule.block_ads]
 }
