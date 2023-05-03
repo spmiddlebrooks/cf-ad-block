@@ -49,6 +49,9 @@ jobs:
           sed -i '/localhost/d' $LIST_FNAME
           sed -i '/127.0.0.1/d' $LIST_FNAME
           
+          echo "[*] Removing trailing dots from domain names..."
+          sed -i 's/.$//g' $LIST_FNAME
+          
       #
       # Commit file
       #
