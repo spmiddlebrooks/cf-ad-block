@@ -45,7 +45,7 @@ resource "cloudflare_teams_rule" "block_ads" {
 # ==============================================================================
 locals {
   # The full path of the list holding the domain list
-  domain_list_file = "${path.module}/assets/adaway_list.txt"
+  domain_list_file = "${path.module}/assets/block_list.txt"
 
   # Parse the file and create a list, one item per line
   domain_list = split("\n", file(local.domain_list_file))
