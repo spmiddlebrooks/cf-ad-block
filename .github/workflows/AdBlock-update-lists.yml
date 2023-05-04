@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     #permissions:
-    #  id-token: write
     #  contents: write
     #  pull-requests: write
 
@@ -27,8 +26,8 @@ jobs:
       - name: 🔗 Fetch Domain List
         working-directory: ${{ env.FOLDER }}
         run: |
-          # LIST_URL="https://adaway.org/hosts.txt"
-          LIST_URL="https://v.firebog.net/hosts/Easylist.txt"
+          LIST_URL="https://adaway.org/hosts.txt"
+          #LIST_URL="https://v.firebog.net/hosts/Easylist.txt"
           LIST_FNAME="adaway_list.txt"
 
           echo "[*] Fetching list: ${LIST_URL} -> ${LIST_FNAME}"
@@ -41,9 +40,9 @@ jobs:
           grep -o '^[^#]*' $LIST_FNAME > temp.txt
           mv temp.txt $LIST_FNAME
 
-          #echo "[*] Extracting domains..."
-          #cat $LIST_FNAME | awk '{ print $2 }' > temp.txt
-          #mv temp.txt $LIST_FNAME
+          echo "[*] Extracting domains..."
+          cat $LIST_FNAME | awk '{ print $2 }' > temp.txt
+          mv temp.txt $LIST_FNAME
 
           echo "[*] Removing localhost from list..."
           sed -i '/localhost/d' $LIST_FNAME
